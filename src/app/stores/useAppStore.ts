@@ -101,8 +101,8 @@ export const useAppStore = create<AppState>()(
       isTimerActive: false,
       currentTaskId: null,
       timerMode: 'focus',
-      focusDuration: 25,
-      breakDuration: 5,
+      focusDuration: 1,
+      breakDuration: 1,
       startTimer: (taskId) =>
         set({ isTimerActive: true, currentTaskId: taskId || null }),
       stopTimer: () => set({ isTimerActive: false, currentTaskId: null }),
@@ -141,7 +141,7 @@ export const useAppStore = create<AppState>()(
       leaveStudyRoom: () => set({ isInStudyRoom: false }),
     }),
     {
-      name: 'focus-app-storage',
+      name: 'focus-app-storage-v2',
     }
   )
 );

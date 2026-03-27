@@ -88,9 +88,10 @@ export function SessionModal({ isOpen, onClose }: SessionModalProps) {
       } else if (p === 'time-up') {
         setOvertime(o => o + 1);
       } else if (p === 'break') {
-        if (tl > 60 && tl - 1 === 60) {
+        const warnAt = breakDuration < 10 ? Math.floor(breakDuration * 60 * 0.5) : 5 * 60;
+        if (tl > warnAt && tl - 1 === warnAt) {
           setPhase('break-warning');
-          toast.warning('Break ending in 1 minute — get ready!');
+          toast.warning(`Break ending in ${warnAt >= 60 ? `${warnAt / 60} min` : `${warnAt}s`} — get ready!`);
         }
         if (tl <= 1) {
           playSound();
@@ -110,7 +111,7 @@ export function SessionModal({ isOpen, onClose }: SessionModalProps) {
       }
     }, 1000);
     return () => clearInterval(id);
-  }, [isRunning, playSound]);
+  }, [isRunning, playSound, breakDuration]);
 
   const saveSession = useCallback((taskId: string, durationSecs: number) => {
     if (!sessionStartRef.current || !taskId) return;
@@ -206,11 +207,11 @@ export function SessionModal({ isOpen, onClose }: SessionModalProps) {
           <div className="space-y-4 py-2 border-b border-sidebar-border mb-2">
             <div className="space-y-1">
               <label className="text-sm font-medium">Focus: {tempFocus} min</label>
-              <Slider value={[tempFocus]} onValueChange={([v]) => setTempFocus(v)} min={15} max={90} step={5} />
+              <Slider value={[tempFocus]} onValueChange={([v]) => setTempFocus(v)} min={1} max={60} step={1} />
             </div>
             <div className="space-y-1">
               <label className="text-sm font-medium">Break: {tempBreak} min</label>
-              <Slider value={[tempBreak]} onValueChange={([v]) => setTempBreak(v)} min={5} max={30} step={5} />
+              <Slider value={[tempBreak]} onValueChange={([v]) => setTempBreak(v)} min={1} max={20} step={1} />
             </div>
             <Button size="sm" className="w-full" onClick={() => { setFocusDuration(tempFocus); setBreakDuration(tempBreak); setShowSettings(false); toast.success('Saved!'); }}>
               Save
