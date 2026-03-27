@@ -9,6 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 import { Trash2, Clock, Calendar, Plus } from 'lucide-react';
 import { format } from 'date-fns';
 import { toast } from 'sonner';
+import { DraggableModal } from './DraggableModal';
 
 interface TasksModalProps {
   isOpen: boolean;
@@ -42,11 +43,10 @@ export function TasksModal({ isOpen, onClose }: TasksModalProps) {
     'bg-green-500/10 text-green-700 border-green-300';
 
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-md bg-card/95 backdrop-blur-sm border-sidebar-border max-h-[80vh] flex flex-col">
-        <DialogHeader>
-          <DialogTitle>Tasks <span className="text-sm font-normal text-muted-foreground">({tasks.filter(t => !t.completed).length} active)</span></DialogTitle>
-        </DialogHeader>
+    <DraggableModal isOpen={isOpen} onClose={onClose} className="max-w-md max-h-[80vh] flex flex-col">
+      <DialogHeader>
+        <DialogTitle>Tasks <span className="text-sm font-normal text-muted-foreground">({tasks.filter(t => !t.completed).length} active)</span></DialogTitle>
+      </DialogHeader>
 
         <div className="space-y-2 pb-3 border-b border-sidebar-border">
           <div className="flex gap-2">
@@ -105,7 +105,6 @@ export function TasksModal({ isOpen, onClose }: TasksModalProps) {
             </div>
           ))}
         </div>
-      </DialogContent>
-    </Dialog>
+    </DraggableModal>
   );
 }

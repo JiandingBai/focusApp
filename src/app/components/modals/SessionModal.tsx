@@ -7,6 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 import { Input } from '../ui/input';
 import { toast } from 'sonner';
 import { Play, Pause, Coffee, Plus, X } from 'lucide-react';
+import { DraggableModal } from './DraggableModal';
 
 interface SessionModalProps {
   isOpen: boolean;
@@ -168,9 +169,8 @@ export function SessionModal({ isOpen, onClose }: SessionModalProps) {
   const isBreakPhase = phase === 'break' || phase === 'break-warning';
 
   return (
-    <Dialog open={isOpen} onOpenChange={(open) => { if (!open) { handleReset(); onClose(); } }}>
-      <DialogContent className="max-w-sm bg-card/95 backdrop-blur-sm border-sidebar-border">
-        <DialogHeader>
+    <DraggableModal isOpen={isOpen} onClose={() => { handleReset(); onClose(); }} className="max-w-sm">
+      <DialogHeader>
           <DialogTitle className="flex items-center justify-between text-base">
             <span>
               {phase === 'task-select' ? 'Session' :
@@ -421,7 +421,6 @@ export function SessionModal({ isOpen, onClose }: SessionModalProps) {
           </div>
         )}
 
-      </DialogContent>
-    </Dialog>
+      </DraggableModal>
   );
 }

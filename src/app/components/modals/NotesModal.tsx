@@ -6,6 +6,7 @@ import { Input } from '../ui/input';
 import { Card } from '../ui/card';
 import { Plus, Trash2 } from 'lucide-react';
 import { toast } from 'sonner';
+import { DraggableModal } from './DraggableModal';
 
 interface Note {
   id: string;
@@ -49,21 +50,15 @@ export function NotesModal({ isOpen, onClose }: NotesModalProps) {
   };
   
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-2xl bg-card/95 backdrop-blur-sm border-sidebar-border max-h-[80vh] overflow-y-auto">
-        <DialogHeader>
-          <DialogTitle className="flex items-center justify-between">
-            <span>Notes</span>
-            <Button
-              onClick={() => setIsAdding(!isAdding)}
-              size="sm"
-              variant={isAdding ? 'outline' : 'default'}
-            >
-              <Plus className="w-4 h-4 mr-1" />
-              Add Note
-            </Button>
-          </DialogTitle>
-        </DialogHeader>
+    <DraggableModal isOpen={isOpen} onClose={onClose} className="max-w-2xl max-h-[80vh] overflow-y-auto">
+      <DialogHeader>
+        <DialogTitle className="flex items-center justify-between">
+          <span>Notes</span>
+          <Button onClick={() => setIsAdding(!isAdding)} size="sm" variant={isAdding ? 'outline' : 'default'}>
+            <Plus className="w-4 h-4 mr-1" />Add Note
+          </Button>
+        </DialogTitle>
+      </DialogHeader>
         
         <div className="space-y-4 py-4">
           {isAdding && (
@@ -122,7 +117,6 @@ export function NotesModal({ isOpen, onClose }: NotesModalProps) {
             </div>
           )}
         </div>
-      </DialogContent>
-    </Dialog>
+    </DraggableModal>
   );
 }
