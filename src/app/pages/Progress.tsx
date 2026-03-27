@@ -5,7 +5,7 @@ import { format, startOfWeek, eachDayOfInterval, subDays, isToday, endOfWeek } f
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend, LineChart, Line } from 'recharts';
 import { CheckCircle, Clock, Target, TrendingUp, Calendar, Award } from 'lucide-react';
 import { motion } from 'motion/react';
-import imgFrame2 from 'figma:asset/bc1f3b0f6a54eb1a8e1f1398fb79cd46335ef064.png';
+import imgFrame2 from '../../assets/bc1f3b0f6a54eb1a8e1f1398fb79cd46335ef064.png';
 
 export function Progress() {
   const { tasks, sessions, backgroundImage } = useAppStore();

@@ -1,67 +1,57 @@
-import { useState } from 'react';
+import { useRef } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../ui/dialog';
-import { Button } from '../ui/button';
 import { useAppStore } from '../../stores/useAppStore';
-import imgFrame2 from 'figma:asset/bc1f3b0f6a54eb1a8e1f1398fb79cd46335ef064.png';
+import { Upload } from 'lucide-react';
+import imgFrame2 from '../../../assets/bc1f3b0f6a54eb1a8e1f1398fb79cd46335ef064.png';
 
 interface SpacesModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
-const defaultBackgrounds = [
+const PRESETS = [
   { id: 'default', url: imgFrame2, name: 'Default' },
 ];
 
 export function SpacesModal({ isOpen, onClose }: SpacesModalProps) {
   const { backgroundImage, setBackgroundImage } = useAppStore();
-  
+  const fileRef = useRef<HTMLInputElement>(null);
+
+  const handleUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const url = URL.createObjectURL(file);
+    setBackgroundImage(url);
+    onClose();
+  };
+
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-2xl bg-card/95 backdrop-blur-sm border-sidebar-border">
+      <DialogContent className="max-w-sm bg-card/95 backdrop-blur-sm border-sidebar-border">
         <DialogHeader>
-          <DialogTitle>Background Spaces</DialogTitle>
+          <DialogTitle>Background</DialogTitle>
         </DialogHeader>
-        
-        <div className="py-4 space-y-4">
-          <p className="text-sm text-muted-foreground">
-            Choose a background for your workspace
-          </p>
-          
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-            {defaultBackgrounds.map(bg => (
-              <button
-                key={bg.id}
-                onClick={() => {
-                  setBackgroundImage(bg.url);
-                  onClose();
-                }}
-                className={`relative aspect-video rounded-lg overflow-hidden border-2 transition-all hover:scale-105 ${
-                  backgroundImage === bg.url
-                    ? 'border-primary ring-2 ring-primary'
-                    : 'border-sidebar-border'
-                }`}
-              >
-                <img
-                  src={bg.url}
-                  alt={bg.name}
-                  className="w-full h-full object-cover"
-                />
-                <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
-                  <span className="text-white font-medium">{bg.name}</span>
+
+        <div className="py-2 space-y-3">
+          <div className="grid grid-cols-2 gap-3">
+            {PRESETS.map(bg => (
+              <button key={bg.id} onClick={() => { setBackgroundImage(bg.url); onClose(); }}
+                className={`relative aspect-video rounded-lg overflow-hidden border-2 transition-all hover:scale-105 ${backgroundImage === bg.url ? 'border-primary ring-2 ring-primary' : 'border-sidebar-border'}`}>
+                <img src={bg.url} alt={bg.name} className="w-full h-full object-cover" />
+                <div className="absolute inset-0 bg-black/30 flex items-end p-1">
+                  <span className="text-white text-xs font-medium">{bg.name}</span>
                 </div>
               </button>
             ))}
-            
-            {/* Placeholder for user-uploaded backgrounds */}
-            <div className="aspect-video rounded-lg border-2 border-dashed border-sidebar-border flex items-center justify-center bg-muted/50">
-              <div className="text-center p-4">
-                <p className="text-xs text-muted-foreground">
-                  More backgrounds coming soon...
-                </p>
-              </div>
-            </div>
+
+            <button onClick={() => fileRef.current?.click()}
+              className="aspect-video rounded-lg border-2 border-dashed border-sidebar-border flex flex-col items-center justify-center gap-1 hover:border-primary hover:bg-accent/30 transition-all">
+              <Upload className="w-5 h-5 text-muted-foreground" />
+              <span className="text-xs text-muted-foreground">Upload image</span>
+            </button>
           </div>
+
+          <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={handleUpload} />
         </div>
       </DialogContent>
     </Dialog>

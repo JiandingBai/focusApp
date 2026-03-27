@@ -1,11 +1,11 @@
-import imgFrame2 from "figma:asset/bc1f3b0f6a54eb1a8e1f1398fb79cd46335ef064.png";
-import imgToDoList from "figma:asset/4beb4e972137c77822d3cb42c125e018da011440.png";
-import imgNote from "figma:asset/675057c919069d0277935e8b20e453a88704dbea.png";
-import imgUsers from "figma:asset/708b15f10badba3aefba568a4a07300150dc191b.png";
-import imgWallpaper from "figma:asset/6088119e12677495548467e7124fad345a3c91a0.png";
-import imgVoice from "figma:asset/10f56b2d0746f31bd3d2abfae6193927d6f1ed97.png";
-import imgMusicalNote from "figma:asset/a270e67b8ff8e175062c35ebb1afe8fa17608ac6.png";
-import imgDeliveryTime from "figma:asset/fe58daf4fa71ecc588795b90f4e1cbcb20415353.png";
+import imgFrame2 from "../assets/bc1f3b0f6a54eb1a8e1f1398fb79cd46335ef064.png";
+import imgToDoList from "../assets/4beb4e972137c77822d3cb42c125e018da011440.png";
+import imgNote from "../assets/675057c919069d0277935e8b20e453a88704dbea.png";
+import imgUsers from "../assets/708b15f10badba3aefba568a4a07300150dc191b.png";
+import imgWallpaper from "../assets/6088119e12677495548467e7124fad345a3c91a0.png";
+import imgVoice from "../assets/10f56b2d0746f31bd3d2abfae6193927d6f1ed97.png";
+import imgMusicalNote from "../assets/a270e67b8ff8e175062c35ebb1afe8fa17608ac6.png";
+import imgDeliveryTime from "../assets/fe58daf4fa71ecc588795b90f4e1cbcb20415353.png";
 
 function TasksButton() {
   return (

@@ -9,7 +9,7 @@ import { useAppStore } from '../stores/useAppStore';
 import { Users, LogIn, LogOut, Clock, Target, TrendingUp, MessageCircle } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { toast } from 'sonner';
-import imgFrame2 from 'figma:asset/bc1f3b0f6a54eb1a8e1f1398fb79cd46335ef064.png';
+import imgFrame2 from '../../assets/bc1f3b0f6a54eb1a8e1f1398fb79cd46335ef064.png';
 
 interface StudyMate {
   id: string;

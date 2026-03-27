@@ -105,7 +105,7 @@ export const useAppStore = create<AppState>()(
       breakDuration: 5,
       startTimer: (taskId) =>
         set({ isTimerActive: true, currentTaskId: taskId || null }),
-      stopTimer: () => set({ isTimerActive: false }),
+      stopTimer: () => set({ isTimerActive: false, currentTaskId: null }),
       setTimerMode: (mode) => set({ timerMode: mode }),
       setFocusDuration: (duration) => set({ focusDuration: duration }),
       setBreakDuration: (duration) => set({ breakDuration: duration }),
