@@ -1,11 +1,28 @@
+# FocusSpace
 
-  # Focus and Productivity App
+A customizable digital workspace for sustained focus, built on Attention Restoration Theory. Designed for usability testing as part of a UX research project.
 
-  This is a code bundle for Focus and Productivity App. The original project is available at https://www.figma.com/design/4ODttEmMka9KknmEqjw2Ow/Focus-and-Productivity-App.
+## Getting started
 
-  ## Running the code
+```bash
+npm install
+npm run dev
+```
 
-  Run `npm i` to install the dependencies.
+## Features
 
-  Run `npm run dev` to start the development server.
-  
+**Session timer** — flexible focus/break durations (1–60 min focus, 1–20 min break). Timer counts down with a visual progress bar. When focus time ends, the session keeps running in overtime until you decide to stop or take a break. Break warning fires at 50% remaining (for breaks under 10 min) or 5 min remaining (for longer breaks), prompting you to pick your next task before the break ends.
+
+**Tasks** — lightweight task list with priority and due date. Quick-add available directly from the session modal so you never have to leave the timer.
+
+**Friends** — virtual study room with mock study mates showing focus/break status and a group chat for social accountability.
+
+**Sounds** — ambient sound selector (rain, café, ocean, etc.) with volume control.
+
+**Spaces** — background picker with a default gradient and support for uploading your own image.
+
+All panels are draggable — open multiple at once and arrange them however you like.
+
+## Stack
+
+React + TypeScript, Vite, Tailwind CSS, Radix UI, Zustand (persisted state), Lucide icons.
