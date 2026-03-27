@@ -19,7 +19,7 @@ export function DraggableModal({ isOpen, onClose, className = '', children }: Dr
   return (
     <Dialog open={isOpen} onOpenChange={handleOpenChange}>
       <DialogContent
-        className={`bg-card/95 backdrop-blur-sm border-sidebar-border ${className}`}
+        className={`backdrop-blur-xl border-border shadow-lg shadow-rose-200/30 ${className}`}
         style={style}
         // suppress Radix's own close-on-outside-click so dragging outside doesn't close
         onPointerDownOutside={e => e.preventDefault()}

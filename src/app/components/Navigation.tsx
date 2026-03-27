@@ -26,16 +26,16 @@ export function Navigation() {
   return (
     <>
       <nav className="fixed left-2 top-2 bottom-2 z-50 w-[50px] flex flex-col gap-2">
-        <div className="bg-sidebar backdrop-blur-sm border border-sidebar-border rounded-[5px] p-1.5">
+        <div className="bg-sidebar backdrop-blur-md border border-sidebar-border rounded-lg p-1.5">
           <div className="flex flex-col gap-1.5">
             {topLinks.map((link) => {
               const Icon = link.icon;
-              
+              const isActive = openModal === link.id;
               return (
                 <button
                   key={link.id}
-                  onClick={() => setOpenModal(link.id)}
-                  className="flex flex-col items-center justify-center gap-0.5 px-2 py-1.5 rounded-[5px] transition-colors text-white bg-secondary hover:bg-sidebar-accent"
+                  onClick={() => setOpenModal(isActive ? null : link.id)}
+                  className={`flex flex-col items-center justify-center gap-0.5 px-2 py-1.5 rounded-md transition-colors text-white ${isActive ? 'bg-primary' : 'bg-secondary hover:bg-sidebar-accent'}`}
                 >
                   <Icon className="w-5 h-5" />
                   <span className="text-[8px] font-['Lato',sans-serif] font-bold leading-none">{link.label}</span>
@@ -45,16 +45,16 @@ export function Navigation() {
           </div>
         </div>
         
-        <div className="bg-sidebar backdrop-blur-sm border border-sidebar-border rounded-[5px] p-1.5">
+        <div className="bg-sidebar backdrop-blur-md border border-sidebar-border rounded-lg p-1.5">
           <div className="flex flex-col gap-1.5">
             {bottomLinks.map((link) => {
               const Icon = link.icon;
-              
+              const isActive = openModal === link.id;
               return (
                 <button
                   key={link.id}
-                  onClick={() => setOpenModal(link.id)}
-                  className="flex flex-col items-center justify-center gap-0.5 px-2 py-1.5 rounded-[5px] transition-colors bg-secondary text-white hover:bg-sidebar-accent"
+                  onClick={() => setOpenModal(isActive ? null : link.id)}
+                  className={`flex flex-col items-center justify-center gap-0.5 px-2 py-1.5 rounded-md transition-colors text-white ${isActive ? 'bg-primary' : 'bg-secondary hover:bg-sidebar-accent'}`}
                 >
                   <Icon className="w-5 h-5" />
                   <span className="text-[8px] font-['Lato',sans-serif] font-bold leading-none">{link.label}</span>

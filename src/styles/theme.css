@@ -2,42 +2,60 @@
 
 :root {
   --font-size: 16px;
-  --background: #ffffff;
-  --foreground: #000000;
-  --card: rgba(161, 161, 161, 0.5);
-  --card-foreground: #000000;
-  --popover: #ffffff;
-  --popover-foreground: #000000;
+
+  /* Panel surfaces — warm frosted glass that picks up the pink gradient */
+  --background: rgba(255, 248, 247, 0.85);
+  --foreground: #3a2a2a;
+  --card: rgba(255, 245, 243, 0.75);
+  --card-foreground: #3a2a2a;
+  --popover: rgba(255, 248, 247, 0.95);
+  --popover-foreground: #3a2a2a;
+
+  /* Dusty rose primary — unchanged, already perfect for the bg */
   --primary: #d16d6a;
   --primary-foreground: #ffffff;
-  --secondary: #4a4848;
+
+  /* Sidebar buttons — warm dark instead of cold grey */
+  --secondary: #5a3f3f;
   --secondary-foreground: #ffffff;
-  --muted: #999797;
-  --muted-foreground: #4a4848;
-  --accent: rgba(161, 161, 161, 0.3);
-  --accent-foreground: #000000;
+
+  /* Muted — warm rose-grey tones */
+  --muted: rgba(235, 210, 208, 0.6);
+  --muted-foreground: #7a5a5a;
+
+  /* Accent — soft warm pink tint for hover states */
+  --accent: rgba(255, 220, 215, 0.5);
+  --accent-foreground: #3a2a2a;
+
   --destructive: #d4183d;
   --destructive-foreground: #ffffff;
-  --border: #4a4848;
+
+  /* Borders — soft rose instead of hard dark grey */
+  --border: rgba(209, 109, 106, 0.25);
   --input: transparent;
-  --input-background: #f3f3f3;
-  --switch-background: #cbced4;
+  --input-background: rgba(255, 248, 247, 0.9);
+  --switch-background: #e8c5c3;
   --font-weight-medium: 500;
   --font-weight-normal: 400;
   --ring: #d16d6a;
+
+  /* Charts */
   --chart-1: #d16d6a;
   --chart-2: #eebfbe;
-  --chart-3: #4a4848;
-  --chart-4: #999797;
-  --chart-5: #bababa;
-  --radius: 0.3125rem;
-  --sidebar: rgba(161, 161, 161, 0.5);
+  --chart-3: #5a3f3f;
+  --chart-4: #b08080;
+  --chart-5: #d4a5a3;
+
+  --radius: 0.5rem;
+
+  /* Sidebar — warm semi-transparent dark */
+  --sidebar: rgba(60, 35, 35, 0.65);
   --sidebar-foreground: #ffffff;
   --sidebar-primary: #d16d6a;
   --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #4a4848;
+  --sidebar-accent: rgba(90, 55, 55, 0.8);
   --sidebar-accent-foreground: #ffffff;
-  --sidebar-border: #4a4848;
+  --sidebar-border: rgba(209, 109, 106, 0.3);
   --sidebar-ring: #d16d6a;
 }
 
