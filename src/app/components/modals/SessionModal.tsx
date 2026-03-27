@@ -290,11 +290,10 @@ export function SessionModal({ isOpen, onClose }: SessionModalProps) {
         {isBreakPhase && (
           <div className="space-y-4 py-2">
             <div className="text-center">
-              <div className={`text-5xl font-bold tabular-nums ${phase === 'break-warning' ? 'text-orange-500' : ''}`}>
+              <div className={`text-5xl font-bold tabular-nums ${phase === 'break-warning' ? 'text-orange-500 animate-pulse' : ''}`}>
                 {fmt(timeLeft)}
               </div>
               <p className="text-xs text-muted-foreground mt-1">break remaining</p>
-              {/* grey overlay grows left→right over the colored base */}
               <div className={`mt-3 h-2 rounded-full overflow-hidden ${phase === 'break-warning' ? 'bg-orange-400' : 'bg-green-400'}`}>
                 <div
                   className="h-full rounded-full bg-muted transition-all duration-1000"
@@ -303,22 +302,61 @@ export function SessionModal({ isOpen, onClose }: SessionModalProps) {
               </div>
             </div>
 
-            {phase === 'break-warning' && (
-              <div className="rounded-lg bg-orange-50 border border-orange-200 p-3 text-center">
-                <p className="text-sm font-medium text-orange-800">Almost time — start wrapping up</p>
-              </div>
+            {/* Regular break: rest suggestions */}
+            {phase === 'break' && (
+              <>
+                <div className="text-center text-sm text-muted-foreground space-y-0.5">
+                  <p>💧 Drink some water</p>
+                  <p> Rest your eyes</p>
+                  <p>🧘 Stretch a little</p>
+                </div>
+                <Button variant="outline" className="w-full"
+                  onClick={() => { setIsRunning(false); setPhase('next-task'); }}>
+                  End break early
+                </Button>
+              </>
             )}
 
-            <div className="text-center text-sm text-muted-foreground space-y-0.5">
-              <p>💧 Drink some water</p>
-              <p>👀 Rest your eyes</p>
-              <p>🧘 Stretch a little</p>
-            </div>
+            {/* Warning: swap suggestions for next-task picker */}
+            {phase === 'break-warning' && (
+              <div className="space-y-3">
+                <p className="text-sm font-medium text-orange-700 text-center">Almost time — pick your next task</p>
 
-            <Button variant="outline" className="w-full"
-              onClick={() => { setIsRunning(false); setPhase('next-task'); }}>
-              End break early
-            </Button>
+                <div className="space-y-1.5 max-h-40 overflow-y-auto">
+                  {currentTask && (
+                    <button onClick={() => handleStartNextTask(currentTask.id)}
+                      className="w-full text-left px-3 py-2 rounded-md border border-primary/30 bg-primary/5 hover:bg-primary/10 text-sm transition-colors flex items-center justify-between group">
+                      <span className="truncate">↩ Continue: {currentTask.title}</span>
+                      <Play className="w-3 h-3 opacity-0 group-hover:opacity-100 shrink-0 ml-2 text-primary" />
+                    </button>
+                  )}
+                  {activeTasks.filter(t => t.id !== selectedTaskId).map(t => (
+                    <button key={t.id} onClick={() => handleStartNextTask(t.id)}
+                      className="w-full text-left px-3 py-2 rounded-md bg-accent/50 hover:bg-accent text-sm transition-colors flex items-center justify-between group">
+                      <span className="truncate">{t.title}</span>
+                      <Play className="w-3 h-3 opacity-0 group-hover:opacity-100 shrink-0 ml-2" />
+                    </button>
+                  ))}
+                  {activeTasks.length === 0 && (
+                    <p className="text-sm text-muted-foreground text-center py-2">All tasks done! 🎉</p>
+                  )}
+                </div>
+
+                {showQuickAdd ? (
+                  <div className="flex gap-2">
+                    <Input autoFocus placeholder="New task…" value={newTaskTitle}
+                      onChange={e => setNewTaskTitle(e.target.value)}
+                      onKeyDown={e => e.key === 'Enter' && handleQuickAdd()} />
+                    <Button size="sm" onClick={handleQuickAdd}><Plus className="w-4 h-4" /></Button>
+                  </div>
+                ) : (
+                  <button onClick={() => setShowQuickAdd(true)}
+                    className="text-xs text-primary hover:underline underline-offset-2">
+                    + Add a task
+                  </button>
+                )}
+              </div>
+            )}
           </div>
         )}
 
