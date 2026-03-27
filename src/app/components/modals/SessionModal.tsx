@@ -274,11 +274,16 @@ export function SessionModal({ isOpen, onClose }: SessionModalProps) {
                 </Button>
               </div>
             ) : (
-              <Button onClick={() => setIsRunning(r => !r)} className="w-full" size="lg">
-                {isRunning
-                  ? <><Pause className="w-4 h-4 mr-2" />Pause</>
-                  : <><Play className="w-4 h-4 mr-2" />Resume</>}
-              </Button>
+              <div className="flex gap-2">
+                <Button onClick={() => setIsRunning(r => !r)} className="flex-1" size="lg">
+                  {isRunning
+                    ? <><Pause className="w-4 h-4 mr-2" />Pause</>
+                    : <><Play className="w-4 h-4 mr-2" />Resume</>}
+                </Button>
+                <Button variant="ghost" size="lg" onClick={handleFinishAndBreak} title="Take a break early">
+                  <Coffee className="w-4 h-4 text-muted-foreground" />
+                </Button>
+              </div>
             )}
           </div>
         )}
