@@ -257,11 +257,11 @@ export function SessionModal({ isOpen, onClose }: SessionModalProps) {
               <p className="text-xs text-muted-foreground mt-1">
                 {overtime > 0 ? 'overtime' : 'remaining'}
               </p>
-              {/* bar slides out to the left as time passes */}
-              <div className="mt-3 h-2 rounded-full bg-muted overflow-hidden">
+              {/* grey overlay grows left→right over the colored base */}
+              <div className="mt-3 h-2 rounded-full bg-primary overflow-hidden">
                 <div
-                  className="h-full w-full rounded-full bg-primary transition-all duration-1000"
-                  style={{ transform: `translateX(-${(1 - focusRemaining) * 100}%)` }}
+                  className="h-full rounded-full bg-muted transition-all duration-1000"
+                  style={{ width: `${(1 - focusRemaining) * 100}%` }}
                 />
               </div>
             </div>
@@ -294,11 +294,11 @@ export function SessionModal({ isOpen, onClose }: SessionModalProps) {
                 {fmt(timeLeft)}
               </div>
               <p className="text-xs text-muted-foreground mt-1">break remaining</p>
-              {/* bar slides out to the left as time passes */}
-              <div className="mt-3 h-2 rounded-full bg-muted overflow-hidden">
+              {/* grey overlay grows left→right over the colored base */}
+              <div className={`mt-3 h-2 rounded-full overflow-hidden ${phase === 'break-warning' ? 'bg-orange-400' : 'bg-green-400'}`}>
                 <div
-                  className={`h-full w-full rounded-full transition-all duration-1000 ${phase === 'break-warning' ? 'bg-orange-400' : 'bg-green-400'}`}
-                  style={{ transform: `translateX(-${(1 - breakRemaining) * 100}%)` }}
+                  className="h-full rounded-full bg-muted transition-all duration-1000"
+                  style={{ width: `${(1 - breakRemaining) * 100}%` }}
                 />
               </div>
             </div>
