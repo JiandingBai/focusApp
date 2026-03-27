@@ -134,10 +134,7 @@ export function SessionModal({ isOpen, onClose }: SessionModalProps) {
 
   const handleStartNextTask = (taskId: string) => {
     setSelectedTaskId(taskId);
-    sessionStartRef.current = new Date();
-    startTimer(taskId);
-    setIsRunning(true);
-    setPhase('focus');
+    setPhase('task-select');
   };
 
   const handleQuickAdd = () => {
