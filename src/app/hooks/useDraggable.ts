@@ -1,22 +1,54 @@
 import { useRef, useState, useCallback } from 'react';
 
-export function useDraggable() {
-  const [pos, setPos] = useState({ x: 0, y: 0 });
+interface UseDraggableOptions {
+  initialOffset?: { x: number; y: number };
+}
+
+export function useDraggable(options: UseDraggableOptions = {}) {
+  const { initialOffset = { x: 0, y: 0 } } = options;
+  const [pos, setPos] = useState(initialOffset);
   const [dragging, setDragging] = useState(false);
   const startRef = useRef({ mouseX: 0, mouseY: 0, posX: 0, posY: 0 });
+  const nodeRef = useRef<HTMLElement | null>(null);
+
+  const reset = useCallback(() => setPos(initialOffset), [initialOffset.x, initialOffset.y]);
+
+  const clamp = useCallback((x: number, y: number) => {
+    const el = nodeRef.current;
+    if (!el) return { x, y };
+    const { width, height } = el.getBoundingClientRect();
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
+    const minX = -(vw / 2 - width / 2 - 8);
+    const maxX =  (vw / 2 - width / 2 - 8);
+    const minY = -(vh / 2 - height / 2 - 8);
+    const maxY =  (vh / 2 - height / 2 - 8);
+    return {
+      x: Math.max(minX, Math.min(maxX, x)),
+      y: Math.max(minY, Math.min(maxY, y)),
+    };
+  }, []);
+
+  const ref = useCallback((el: HTMLElement | null) => {
+    nodeRef.current = el;
+    if (el) {
+      requestAnimationFrame(() => {
+        setPos(prev => clamp(prev.x, prev.y));
+      });
+    }
+  }, [clamp]);
 
   const onMouseDown = useCallback((e: React.MouseEvent) => {
-    // only drag on the handle element itself, not its children buttons
+    // Only drag from the title bar — skip the close button
     if ((e.target as HTMLElement).closest('button')) return;
-    e.preventDefault();
     setDragging(true);
     startRef.current = { mouseX: e.clientX, mouseY: e.clientY, posX: pos.x, posY: pos.y };
 
     const onMove = (ev: MouseEvent) => {
-      setPos({
-        x: startRef.current.posX + ev.clientX - startRef.current.mouseX,
-        y: startRef.current.posY + ev.clientY - startRef.current.mouseY,
-      });
+      setPos(clamp(
+        startRef.current.posX + ev.clientX - startRef.current.mouseX,
+        startRef.current.posY + ev.clientY - startRef.current.mouseY,
+      ));
     };
     const onUp = () => {
       setDragging(false);
@@ -25,18 +57,14 @@ export function useDraggable() {
     };
     window.addEventListener('mousemove', onMove);
     window.addEventListener('mouseup', onUp);
-  }, [pos]);
-
-  const reset = useCallback(() => setPos({ x: 0, y: 0 }), []);
+  }, [pos, clamp]);
 
   const style: React.CSSProperties = {
-    transform: `translate(calc(-50% + ${pos.x}px), calc(-50% + ${pos.y}px))`,
-    // override Radix default translate so our offset works
     left: '50%',
     top: '50%',
-    position: 'fixed',
+    transform: `translate(calc(-50% + ${pos.x}px), calc(-50% + ${pos.y}px))`,
     cursor: dragging ? 'grabbing' : undefined,
   };
 
-  return { style, onMouseDown, reset, dragging };
+  return { style, onMouseDown, reset, dragging, ref };
 }
