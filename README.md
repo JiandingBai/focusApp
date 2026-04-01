@@ -1,6 +1,6 @@
-# FocusSpace
+# StudyNest
 
-A customizable digital workspace for sustained focus, built on Attention Restoration Theory. Designed for usability testing as part of a UX research project.
+A customizable digital study workspace for sustained focus, built on Attention Restoration Theory. Designed for usability testing as part of a UX research project.
 
 ## Getting started
 
