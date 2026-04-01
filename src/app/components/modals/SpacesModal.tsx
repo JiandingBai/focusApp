@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../ui/dialog';
+
 import { useAppStore } from '../../stores/useAppStore';
 import { Upload } from 'lucide-react';
 import imgFrame2 from '../../../assets/bc1f3b0f6a54eb1a8e1f1398fb79cd46335ef064.png';
@@ -8,13 +8,14 @@ import { DraggableModal } from './DraggableModal';
 interface SpacesModalProps {
   isOpen: boolean;
   onClose: () => void;
+  initialOffset?: { x: number; y: number };
 }
 
 const PRESETS = [
   { id: 'default', url: imgFrame2, name: 'Default' },
 ];
 
-export function SpacesModal({ isOpen, onClose }: SpacesModalProps) {
+export function SpacesModal({ isOpen, onClose, initialOffset }: SpacesModalProps) {
   const { backgroundImage, setBackgroundImage } = useAppStore();
   const fileRef = useRef<HTMLInputElement>(null);
 
@@ -27,10 +28,10 @@ export function SpacesModal({ isOpen, onClose }: SpacesModalProps) {
   };
 
   return (
-    <DraggableModal isOpen={isOpen} onClose={onClose} className="max-w-sm">
-      <DialogHeader>
-        <DialogTitle>Background</DialogTitle>
-      </DialogHeader>
+    <DraggableModal isOpen={isOpen} onClose={onClose} className="max-w-sm" initialOffset={initialOffset}>
+      <div className="flex flex-col gap-2 mb-2">
+        <h2 className="text-lg font-semibold leading-none">Background</h2>
+      </div>
 
         <div className="py-2 space-y-3">
           <div className="grid grid-cols-2 gap-3">

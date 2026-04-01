@@ -2,21 +2,22 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import { useAppStore } from '../../stores/useAppStore';
 import { Button } from '../ui/button';
 import { Slider } from '../ui/slider';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../ui/dialog';
+
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 import { Input } from '../ui/input';
 import { toast } from 'sonner';
-import { Play, Pause, Coffee, Plus, X } from 'lucide-react';
+import { Play, Pause, Coffee, Plus } from 'lucide-react';
 import { DraggableModal } from './DraggableModal';
 
 interface SessionModalProps {
   isOpen: boolean;
   onClose: () => void;
+  initialOffset?: { x: number; y: number };
 }
 
 type Phase = 'task-select' | 'focus' | 'time-up' | 'break' | 'break-warning' | 'next-task';
 
-export function SessionModal({ isOpen, onClose }: SessionModalProps) {
+export function SessionModal({ isOpen, onClose, initialOffset }: SessionModalProps) {
   const {
     tasks, focusDuration, breakDuration,
     setFocusDuration, setBreakDuration,
@@ -125,13 +126,6 @@ export function SessionModal({ isOpen, onClose }: SessionModalProps) {
     setPhase('break');
   };
 
-  const handleFinishNoBreak = () => {
-    saveSession(selectedTaskId, localFocus * 60 + overtime);
-    toast.success('Session saved!');
-    setIsRunning(false);
-    stopTimer();
-    setPhase('task-select');
-  };
 
   const handleStartNextTask = (taskId: string) => {
     setSelectedTaskId(taskId);
@@ -169,22 +163,13 @@ export function SessionModal({ isOpen, onClose }: SessionModalProps) {
   const isBreakPhase = phase === 'break' || phase === 'break-warning';
 
   return (
-    <DraggableModal isOpen={isOpen} onClose={() => { handleReset(); onClose(); }} className="max-w-sm">
-      <DialogHeader>
-          <DialogTitle className="flex items-center justify-between text-base">
-            <span>
-              {phase === 'task-select' ? 'Session' :
-               isFocusPhase ? '🧠 Focus' :
-               isBreakPhase ? '☕ Break' :
-               'Break Over'}
-            </span>
-            {(isFocusPhase || isBreakPhase) && (
-              <Button variant="ghost" size="sm" onClick={handleReset} title="End session">
-                <X className="w-4 h-4" />
-              </Button>
-            )}
-          </DialogTitle>
-        </DialogHeader>
+    <DraggableModal isOpen={isOpen} onClose={() => { handleReset(); onClose(); }} className="max-w-sm" initialOffset={initialOffset}>
+      <h2 className="text-base font-semibold leading-none mb-2 pr-6">
+        {phase === 'task-select' ? 'Session' :
+         isFocusPhase ? '🧠 Focus' :
+         isBreakPhase ? '☕ Break' :
+         'Break Over'}
+      </h2>
 
         {/* ── Task select (always shows sliders) ── */}
         {phase === 'task-select' && (
@@ -265,12 +250,9 @@ export function SessionModal({ isOpen, onClose }: SessionModalProps) {
 
             {phase === 'time-up' ? (
               <div className="space-y-2">
-                <p className="text-sm font-medium text-center">Time's up — finished the task?</p>
+                <p className="text-sm font-medium text-center">Nice work!</p>
                 <Button className="w-full" onClick={handleFinishAndBreak}>
-                  <Coffee className="w-4 h-4 mr-2" /> Done — take a break
-                </Button>
-                <Button className="w-full" variant="ghost" size="sm" onClick={handleFinishNoBreak}>
-                  Done, skip break
+                  <Coffee className="w-4 h-4 mr-2" /> Take a break
                 </Button>
               </div>
             ) : (
